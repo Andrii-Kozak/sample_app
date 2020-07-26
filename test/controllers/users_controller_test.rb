@@ -5,6 +5,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:michael)
     @other_user = users(:archer)
+    @inactive_user = users(:non_activated)
   end
 
   test "should get new" do
@@ -54,6 +55,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert flash.empty?
     assert_redirected_to root_url
   end
+
   test "should redirect destroy when not logged in" do
     assert_no_difference 'User.count' do
       delete user_path(@user)
@@ -69,4 +71,27 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
   end
 
+  test "should get index path for activated users" do
+    log_in_as(@user)
+    get users_path
+    assert_response :success
+  end
+
+  test "#GET index should redirect to login page for non activated users" do
+    log_in_as(@inactive_user)
+    get users_path
+    assert_redirected_to login_url
+  end
+
+  test "#GET show should get user path for activated users" do
+    log_in_as(@user)
+    get user_path(@other_user)
+    assert_response :success
+  end
+
+  test "#GET show should redirect to root url" do
+    log_in_as(@user)
+    get user_path(@inactive_user)
+    assert_redirected_to root_url
+  end
 end
