@@ -68,13 +68,13 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   host = 'https://protected-cliffs-96661.herokuapp.com'
   config.action_mailer.default_url_options = { host: host }
-  ActionMailer::Base.smtp_settings = {
-    :address => 'smtp.sendgrid.net',
-    :port => '587',
-    :authentication => :plain,
-    :user_name => 'app179156904@heroku.com',
-    :password => 'f8bmkr300598',
-    :domain => 'heroku.com',
+  config.action_mailer.smtp_settings = {
+    :address => 'smtp.gmail.com',
+    :port => 587,
+    :domain => 'gmail.com',
+    :user_name => 'kozak.email1111@gmail.com',
+    :password => '&[{}(=*)',
+    :authentication => :login,
     :enable_starttls_auto => true
   }
 
